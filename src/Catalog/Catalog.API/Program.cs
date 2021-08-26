@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Azure.Identity;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Catalog.API.Extensions;
@@ -20,7 +19,7 @@ namespace Catalog.API
     {
         public static string Namespace = typeof(Startup).Namespace;
         public static string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
             // reset configuration & keyvault 
             var configuration = GetConfiguration();
@@ -51,10 +50,14 @@ namespace Catalog.API
                 Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
 
                 host.Run();
+
+                return 0;
             }
             catch (Exception ex)
             {
                 Log.Fatal(ex, "Program terminated unexpectedly ({ApplicationContext})!", Program.AppName);
+
+                return 1;
             }
             finally
             {
@@ -105,13 +108,17 @@ namespace Catalog.API
 
             if (config.GetValue<bool>("UseVault", false))
             {
-                var credential = new ClientSecretCredential(
-                    config["Vault:TenantId"],
-                    config["Vault:ClientId"],
-                    config["Vault:ClientSecret"]
-                );
+                // var credential = new ClientSecretCredential(
+                //     config["Vault:TenantId"],
+                //     config["Vault:ClientId"],
+                //     config["Vault:ClientSecret"]
+                // );
 
-                builder.AddAzureKeyVault(new Uri($"https://{config["Vault:Name"]}.vault.azure.net/"), credential);
+                // builder.AddAzureKeyVault(new Uri($"https://{config["Vault:Name"]}.vault.azure.net/"), credential);
+                builder.AddAzureKeyVault(
+                    $"https://{config["Vault:Name"]}.vault.azure.net/",
+                    config["Vault:ClientId"],
+                    config["Vault:ClientSecret"]);
             }
 
             return builder.Build();
