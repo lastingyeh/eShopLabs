@@ -18,12 +18,10 @@ namespace Catalog.API.Model
         public int RestockThreshold { get; set; }
         // Maximum number of units that can be in-stock at any time (due to physicial/logistical constraints in warehouses)
         public int MaxStockThreshold { get; set; }
-
         /// <summary>
         /// True if item is on reorder
         /// </summary>
         public bool OnReorder { get; set; }
         public CatalogItem() { }
-
     }
 }

@@ -2,7 +2,7 @@
 
 ## Technics
 
-- Net Core 5.0
+- Net Core 3.1 LTS
 - Docker & Docker-compose
 - Azure Key Vault
 
@@ -21,3 +21,4 @@
 # References
 
 - [eShopOnContainers](https://github.com/dotnet-architecture/eShopOnContainers)
+- [eShopOnContainers realease 3.1](https://github.com/dotnet-architecture/eShopOnContainers/releases)
