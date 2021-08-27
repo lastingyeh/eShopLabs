@@ -1,18 +1,34 @@
-# Mock & Implement Microservices
+# Microservices Learning On [eShopOnContainers]
 
-## Technics
+## Technical targets
 
 - Net Core 3.1 LTS
-- Docker & Docker-compose
+- Docker 
+- Docker-compose
+- Kubernetes [AKS]
 - Azure Key Vault
+---
+## [Services]
 
-## API Services
+### **Catalog**
+---
+#### Catalog.API
+* CatalogController
+    - ItemsAsync
+    - ItemByIdAsync
+    - ItemsWithNameAsync
+    - ItemsByTypeIdAndBrandIdAsync
+    - ItemsByBrandIdAsync
+    - CatalogTypesAsync
+    - CatalogBrandsAsync
+    - UpdateProductAsync
+    - CreateProductAsync
+    - DeleteProductAsync
+* PicController
+    - GetImageAsync 
 
-- Catalog
-  - Catalog.API
-  - 
-
-## Pivotal dependencies
+## Dependencies
+---
 
 - [Polly - express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner.](https://github.com/App-vNext/Polly)
 - [Serilog](https://github.com/serilog/serilog)
