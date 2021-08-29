@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.IO;
-
+using Catalog.API.Grpc;
 
 namespace Catalog.API
 {
@@ -33,7 +33,7 @@ namespace Catalog.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationInsight(Configuration)
-                .AddGrpc().Services
+                .AddGrpc().Services // Grpc services
                 .AddCustomMVC(Configuration)
                 .AddCustomDbContext(Configuration)
                 .AddCustomOptions(Configuration)
@@ -90,8 +90,9 @@ namespace Catalog.API
                         }
                     }
                 });
-                // implement
-                // endpoints.MapGrpcService<CatalogService>();
+                // Grpc services
+                endpoints.MapGrpcService<CatalogService>();
+                
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions
                 {
                     Predicate = _ => true,

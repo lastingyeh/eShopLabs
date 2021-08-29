@@ -7,13 +7,17 @@
 - Docker-compose
 - Kubernetes [AKS]
 - Azure Key Vault
+- GRPC
+    - Google.Protobuf
+    - Grpc.Tools
+    - Grpc.AspNetCore.Server
 ---
 ## [Services]
 
 ### **Catalog**
 ---
 #### Catalog.API
-* CatalogController
+* CatalogController (api/vi/catalog/)
     - ItemsAsync
     - ItemByIdAsync
     - ItemsWithNameAsync
@@ -26,6 +30,14 @@
     - DeleteProductAsync
 * PicController
     - GetImageAsync 
+* Grpc
+    - dotnet build
+    - /obj/Debug/netcoreapp3.1/Proto/CatalogGrpc.cs
+
+* Common libs
+    - BuildingBlocks
+        - EventBus
+        - IntegrationEventLogEF
 
 ## Dependencies
 ---

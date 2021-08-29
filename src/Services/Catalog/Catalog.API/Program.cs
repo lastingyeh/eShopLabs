@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Catalog.API.Extensions;
 using Microsoft.Extensions.Options;
 using Catalog.API.Infrastructure;
+using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF;
 
 namespace Catalog.API
 {
@@ -43,9 +44,9 @@ namespace Catalog.API
                     var logger = services.GetService<ILogger<CatalogContextSeed>>();
 
                     new CatalogContextSeed().SeedAsync(context, env, settings, logger).Wait();
-                });
+                })
                 // BuildingBlocks\EventBus\IntegrationEventLogEF
-                // .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
+                .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
 
                 Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
 
