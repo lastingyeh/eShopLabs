@@ -281,3 +281,6 @@ pub/
 src/**/app.yaml
 src/**/inf.yaml
 
+# For Mac
+.DS_Store
+
