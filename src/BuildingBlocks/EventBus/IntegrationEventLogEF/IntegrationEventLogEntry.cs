@@ -19,7 +19,7 @@ namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF
         public string EventTypeShortName => EventTypeName.Split('.')?.Last();
         [NotMapped]
         public IntegrationEvent IntegrationEvent { get; private set; }
-        
+
         private IntegrationEventLogEntry() { }
         public IntegrationEventLogEntry(IntegrationEvent @event, Guid transactionId)
         {
@@ -30,6 +30,13 @@ namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF
             State = EventStateEnum.NotPublished;
             TimesSent = 0;
             TransactionId = transactionId.ToString();
+        }
+
+        public IntegrationEventLogEntry DeserializeJsonContent(Type type)
+        {
+            IntegrationEvent = JsonConvert.DeserializeObject(Content, type) as IntegrationEvent;
+
+            return this;
         }
     }
 }

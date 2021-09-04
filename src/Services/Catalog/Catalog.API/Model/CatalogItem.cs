@@ -1,3 +1,6 @@
+using System;
+using Catalog.API.Infrastructure.Exceptions;
+
 namespace Catalog.API.Model
 {
     public class CatalogItem
@@ -23,5 +26,24 @@ namespace Catalog.API.Model
         /// </summary>
         public bool OnReorder { get; set; }
         public CatalogItem() { }
+
+        public int RemoveStock(int quantityDesired)
+        {
+            if (AvailableStock == 0)
+            {
+                throw new CatalogDomainException($"Empty stock, product item {Name} is sold out");
+            }
+
+            if (quantityDesired <= 0)
+            {
+                throw new CatalogDomainException($"Item units desired should be greater than zero");
+            }
+
+            int removed = Math.Min(quantityDesired, this.AvailableStock);
+
+            this.AvailableStock -= removed;
+
+            return removed;
+        }
     }
 }

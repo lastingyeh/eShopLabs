@@ -18,6 +18,12 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using System.IO;
 using Catalog.API.Grpc;
+using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Abstractions;
+using Catalog.API.IntegrationEvents.Events;
+using Catalog.API.IntegrationEvents.EventHandling;
+using System.Data.Common;
+using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Services;
+using Catalog.API.IntegrationEvents;
 
 namespace Catalog.API
 {
@@ -92,7 +98,7 @@ namespace Catalog.API
                 });
                 // Grpc services
                 endpoints.MapGrpcService<CatalogService>();
-                
+
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions
                 {
                     Predicate = _ => true,
@@ -110,9 +116,10 @@ namespace Catalog.API
 
         protected virtual void ConfigureEventBus(IApplicationBuilder app)
         {
-            // var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-            // eventBus.Subscribe<OrderStatusChangedToAwaitingValidationIntegrationEvent, OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
-            // eventBus.Subscribe<OrderStatusChangedToPaidIntegrationEvent, OrderStatusChangedToPaidIntegrationEventHandler>();
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<OrderStatusChangedToAwaitingValidationIntegrationEvent, OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+            eventBus.Subscribe<OrderStatusChangedToPaidIntegrationEvent, OrderStatusChangedToPaidIntegrationEventHandler>();
         }
     }
 
@@ -193,6 +200,10 @@ namespace Catalog.API
 
         public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp => 
+                (DbConnection c) => new IntegrationEventLogService(c));
+
+            services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
             // implement 
             return services;
         }
