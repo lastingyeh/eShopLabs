@@ -6,11 +6,18 @@
 - Docker 
 - Docker-compose
 - Kubernetes [AKS]
-- Azure Key Vault
-- GRPC
+- AzureKeyVault 
+- AzureServiceBus [prod] [event] [health-check]
+- AzureStorage [health-check]
+- AzureApplicationInsight
+- Serilog [all]
+- Autofac
+- Polly [retry]
+- GRPC 
     - Google.Protobuf
     - Grpc.Tools
     - Grpc.AspNetCore.Server
+- RabbitMQ [dev] [health-check]
 ---
 ## [Services]
 
@@ -28,8 +35,10 @@
     - UpdateProductAsync
     - CreateProductAsync
     - DeleteProductAsync
+
 * PicController
     - GetImageAsync 
+
 * Grpc
     - dotnet build
     - /obj/Debug/netcoreapp3.1/Proto/CatalogGrpc.cs

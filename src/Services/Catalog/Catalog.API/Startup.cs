@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,12 @@ using Catalog.API.IntegrationEvents.EventHandling;
 using System.Data.Common;
 using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Services;
 using Catalog.API.IntegrationEvents;
+using EventBusServiceBus;
+using Microsoft.Extensions.Options;
+using EventBusRabbitMQ;
+using RabbitMQ.Client;
+using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Catalog.API
 {
@@ -145,7 +152,7 @@ namespace Catalog.API
             {
                 options.AddPolicy("CorsPolicy", builder =>
                 {
-                    builder.SetIsOriginAllowed((host) => true)
+                    builder.SetIsOriginAllowed(host => true)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
@@ -168,7 +175,15 @@ namespace Catalog.API
                     });
                 });
 
-            // implement IntegrationEventLogContext 
+            services.AddDbContext<IntegrationEventLogContext>(options =>
+            {
+                options.UseSqlServer(configuration["ConnectionString"],
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+            });
 
             return services;
         }
@@ -200,17 +215,61 @@ namespace Catalog.API
 
         public static IServiceCollection AddIntegrationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp => 
+            services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(sp =>
                 (DbConnection c) => new IntegrationEventLogService(c));
 
             services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
-            // implement 
+
+            if (configuration.GetValue<bool>("AzureServiceBusEnabled"))
+            {
+                services.AddSingleton<IServiceBusPersisterConnection>(sp =>
+                {
+                    var settings = sp.GetRequiredService<IOptions<CatalogSettings>>().Value;
+                    var logger = sp.GetRequiredService<ILogger<DefaultServiceBusPersisterConnection>>();
+                    var serviceBusConnection = new ServiceBusConnectionStringBuilder(settings.EventBusConnection);
+
+                    return new DefaultServiceBusPersisterConnection(serviceBusConnection, logger);
+                });
+            }
+            else
+            {
+                services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+                {
+                    var settings = sp.GetRequiredService<IOptions<CatalogSettings>>().Value;
+                    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+                    var factory = new ConnectionFactory
+                    {
+                        HostName = configuration["EventBusConnection"],
+                        DispatchConsumersAsync = true,
+                    };
+
+                    if (!string.IsNullOrEmpty(configuration["EventBusUserName"]))
+                    {
+                        factory.UserName = configuration["EventBusUserName"];
+                    }
+
+                    if (!string.IsNullOrEmpty(configuration["EventBusPassword"]))
+                    {
+                        factory.Password = configuration["EventBusPassword"];
+                    }
+
+                    var retryCount = 5;
+
+                    if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
+                    {
+                        retryCount = int.Parse(configuration["EventBusRetryCount"]);
+                    }
+
+                    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
+                });
+            }
             return services;
         }
 
         public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
         {
-            // implement 
+
+
             return services;
         }
 
@@ -231,7 +290,41 @@ namespace Catalog.API
 
         public static IServiceCollection AddCustomHealthCheck(this IServiceCollection services, IConfiguration configuration)
         {
-            // implement 
+            var accountName = configuration.GetValue<string>("AzureStorageAccountName");
+            var accountKey = configuration.GetValue<string>("AzureStorageAccountKey");
+
+            var hcBuilder = services.AddHealthChecks();
+
+            hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy())
+                .AddSqlServer(configuration["ConnectionString"], name: "CatalogDB-check", tags: new string[] { "catalogdb" });
+
+            if (!string.IsNullOrEmpty(accountName) && !string.IsNullOrEmpty(accountKey))
+            {
+                hcBuilder.AddAzureBlobStorage(
+                    $"DefaultEndpointsProtocol=https;AccountName={accountName};AccountKey={accountKey};EndpointSuffix=core.windows.net",
+                    name: "catalog-storage-check",
+                    tags: new string[] { "catalogstorage" }
+                );
+            }
+
+            if (configuration.GetValue<bool>("AzureServiceBusEnabled"))
+            {
+                hcBuilder.AddAzureServiceBusTopic(
+                    configuration["EventBusConnection"],
+                    topicName: "eshop_event_bus",
+                    name: "catalog-services-check",
+                    tags: new string[] { "servicebus" }
+                );
+            }
+            else
+            {
+                hcBuilder.AddRabbitMQ(
+                    $"amqp://{configuration["EventBusConnection"]}",
+                    name: "catalog-rabbitmqbus-check",
+                    tags: new string[] { "rabbitmqbus" }
+                );
+            }
+
             return services;
         }
     }
