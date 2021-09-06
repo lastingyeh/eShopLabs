@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using eShopLabs.BuildingBlocks.EventBus.Events;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Events;
 
-namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Services
+namespace eShopLabs.BuildingBlocks.IntegrationEventLogEF.Services
 {
     public interface IIntegrationEventLogService
     {

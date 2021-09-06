@@ -1,10 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Events;
+using eShopLabs.BuildingBlocks.EventBus.Events;
 using Newtonsoft.Json;
 
-namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF
+namespace eShopLabs.BuildingBlocks.IntegrationEventLogEF
 {
     public class IntegrationEventLogEntry
     {

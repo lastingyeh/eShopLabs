@@ -1,15 +1,15 @@
 using System;
 using System.Data.Common;
 using System.Threading.Tasks;
-using Catalog.API.Infrastructure;
+using eShopLabs.BuildingBlocks.EventBus.Abstractions;
+using eShopLabs.BuildingBlocks.EventBus.Events;
+using eShopLabs.BuildingBlocks.IntegrationEventLogEF.Services;
+using eShopLabs.BuildingBlocks.IntegrationEventLogEF.Utilities;
+using eShopLabs.Services.Catalog.API.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Abstractions;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Events;
-using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Services;
-using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Utilities;
 using Microsoft.Extensions.Logging;
 
-namespace Catalog.API.IntegrationEvents
+namespace eShopLabs.Services.Catalog.API.IntegrationEvents
 {
     public class CatalogIntegrationEventService : ICatalogIntegrationEventService, IDisposable
     {

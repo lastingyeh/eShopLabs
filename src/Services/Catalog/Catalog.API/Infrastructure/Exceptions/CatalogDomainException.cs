@@ -1,5 +1,5 @@
 using System;
-namespace Catalog.API.Infrastructure.Exceptions
+namespace eShopLabs.Services.Catalog.API.Infrastructure.Exceptions
 {
     public class CatalogDomainException : Exception
     {

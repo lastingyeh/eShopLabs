@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace Catalog.API.Extensions
+namespace eShopLabs.Services.Catalog.API.Extensions
 {
     public static class WebHostExtensions
     {

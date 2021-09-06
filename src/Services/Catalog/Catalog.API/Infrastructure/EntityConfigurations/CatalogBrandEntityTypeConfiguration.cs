@@ -1,8 +1,8 @@
-using Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Catalog.API.Infrastructure.EntityConfigurations
+namespace eShopLabs.Services.Catalog.API.Infrastructure.EntityConfigurations
 {
     public class CatalogBrandEntityTypeConfiguration : IEntityTypeConfiguration<CatalogBrand>
     {

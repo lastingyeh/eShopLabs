@@ -1,4 +1,4 @@
-namespace Catalog.API.Model
+namespace eShopLabs.Services.Catalog.API.Model
 {
     public class CatalogType
     {

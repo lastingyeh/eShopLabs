@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Events;
+using eShopLabs.BuildingBlocks.EventBus.Events;
 
-namespace Catalog.API.IntegrationEvents
+namespace eShopLabs.Services.Catalog.API.IntegrationEvents
 {
     public interface ICatalogIntegrationEventService
     {

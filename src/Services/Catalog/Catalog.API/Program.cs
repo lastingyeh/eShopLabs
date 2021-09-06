@@ -1,20 +1,20 @@
-using System.Net;
-using System.IO;
 using System;
+using System.IO;
+using System.Net;
+using eShopLabs.BuildingBlocks.IntegrationEventLogEF;
+using eShopLabs.Services.Catalog.API.Extensions;
+using eShopLabs.Services.Catalog.API.Infrastructure;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Catalog.API.Extensions;
 using Microsoft.Extensions.Options;
-using Catalog.API.Infrastructure;
-using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF;
+using Serilog;
 
-namespace Catalog.API
+namespace eShopLabs.Services.Catalog.API
 {
     public class Program
     {

@@ -4,11 +4,11 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using eShopLabs.BuildingBlocks.EventBus.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Events;
 
-namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Services
+namespace eShopLabs.BuildingBlocks.IntegrationEventLogEF.Services
 {
     public class IntegrationEventLogService : IIntegrationEventLogService, IDisposable
     {

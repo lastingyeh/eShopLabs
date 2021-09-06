@@ -8,7 +8,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
 
-namespace EventBusRabbitMQ
+namespace eShopLabs.BuildingBlocks.EventBusRabbitMQ
 {
     public class DefaultRabbitMQPersistentConnection : IRabbitMQPersistentConnection
     {

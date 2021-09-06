@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
-namespace Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Events
+namespace eShopLabs.BuildingBlocks.EventBus.Events
 {
     public class IntegrationEvent
     {

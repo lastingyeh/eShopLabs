@@ -1,7 +1,7 @@
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Logging;
 
-namespace EventBusServiceBus
+namespace eShopLabs.BuildingBlocks.EventBusServiceBus
 {
     public class DefaultServiceBusPersisterConnection : IServiceBusPersisterConnection
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Catalog.API.ViewModel
+namespace eShopLabs.Services.Catalog.API.ViewModel
 {
     public class PaginatedItemsViewModel<TEntity> where TEntity : class
     {

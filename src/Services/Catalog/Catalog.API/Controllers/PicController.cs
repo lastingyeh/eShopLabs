@@ -1,12 +1,12 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Catalog.API.Infrastructure;
+using eShopLabs.Services.Catalog.API.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.API.Controllers
+namespace eShopLabs.Services.Catalog.API.Controllers
 {
     public class PicController : ControllerBase
     {

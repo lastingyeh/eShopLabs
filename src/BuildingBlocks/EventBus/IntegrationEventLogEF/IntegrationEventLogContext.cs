@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF
+namespace eShopLabs.BuildingBlocks.IntegrationEventLogEF
 {
     public class IntegrationEventLogContext : DbContext
     {
@@ -18,7 +18,7 @@ namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF
             builder.ToTable("IntegrationEventLog");
 
             builder.HasKey(e => e.EventId);
-            
+
             builder.Property(e => e.EventId).IsRequired();
             builder.Property(e => e.Content).IsRequired();
             builder.Property(e => e.CreationTime).IsRequired();

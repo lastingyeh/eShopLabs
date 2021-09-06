@@ -1,21 +1,21 @@
-using System.Text.RegularExpressions;
-using System.IO.Compression;
-using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Extensions;
+using eShopLabs.Services.Catalog.API.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
-using Catalog.API.Extensions;
-using System.Globalization;
 
-namespace Catalog.API.Infrastructure
+namespace eShopLabs.Services.Catalog.API.Infrastructure
 {
     public class CatalogContextSeed
     {

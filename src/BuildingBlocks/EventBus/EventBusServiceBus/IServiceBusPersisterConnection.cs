@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Azure.ServiceBus;
 
-namespace EventBusServiceBus
+namespace eShopLabs.BuildingBlocks.EventBusServiceBus
 {
     public interface IServiceBusPersisterConnection : IDisposable
     {

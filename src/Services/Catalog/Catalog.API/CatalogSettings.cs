@@ -1,4 +1,4 @@
-namespace Catalog.API
+namespace eShopLabs.Services.Catalog.API
 {
     public class CatalogSettings
     {

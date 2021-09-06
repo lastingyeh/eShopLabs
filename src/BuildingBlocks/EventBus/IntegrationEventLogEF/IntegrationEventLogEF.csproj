@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF</RootNamespace>
+    <RootNamespace>eShopLabs.BuildingBlocks.IntegrationEventLogEF</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
-using Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Model;
 
-namespace Catalog.API.Extensions
+namespace eShopLabs.Services.Catalog.API.Extensions
 {
     public static class CatalogItemExtensions
     {

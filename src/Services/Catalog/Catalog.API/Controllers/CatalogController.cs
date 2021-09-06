@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Catalog.API.Extensions;
-using Catalog.API.Infrastructure;
-using Catalog.API.Model;
-using Catalog.API.ViewModel;
+using eShopLabs.Services.Catalog.API.Extensions;
+using eShopLabs.Services.Catalog.API.Infrastructure;
+using eShopLabs.Services.Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Catalog.API.Controllers
+namespace eShopLabs.Services.Catalog.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]

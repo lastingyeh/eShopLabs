@@ -1,9 +1,9 @@
-using Catalog.API.Infrastructure.EntityConfigurations;
-using Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Infrastructure.EntityConfigurations;
+using eShopLabs.Services.Catalog.API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Catalog.API.Infrastructure
+namespace eShopLabs.Services.Catalog.API.Infrastructure
 {
     public class CatalogContext : DbContext
     {
@@ -24,7 +24,7 @@ namespace Catalog.API.Infrastructure
     //     public CatalogContext CreateDbContext(string[] args)
     //     {
     //         var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>()
-    //             .UseSqlServer("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.CatalogDb;Integrated Security=true");
+    //             .UseSqlServer("Server=.;Initial Catalog=eShopLabs.Services.CatalogDb;Integrated Security=true");
 
     //         return new CatalogContext(optionsBuilder.Options);
     //     }

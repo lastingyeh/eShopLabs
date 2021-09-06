@@ -1,7 +1,7 @@
 using System;
 using RabbitMQ.Client;
 
-namespace EventBusRabbitMQ
+namespace eShopLabs.BuildingBlocks.EventBusRabbitMQ
 {
     public interface IRabbitMQPersistentConnection : IDisposable
     {

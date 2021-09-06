@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.API.Infrastructure;
-using Catalog.API.IntegrationEvents.Events;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Abstractions;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Events;
+using eShopLabs.BuildingBlocks.EventBus.Abstractions;
+using eShopLabs.BuildingBlocks.EventBus.Events;
+using eShopLabs.Services.Catalog.API.Infrastructure;
+using eShopLabs.Services.Catalog.API.IntegrationEvents.Events;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
-namespace Catalog.API.IntegrationEvents.EventHandling
+namespace eShopLabs.Services.Catalog.API.IntegrationEvents.EventHandling
 {
     public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler :
         IIntegrationEventHandler<OrderStatusChangedToAwaitingValidationIntegrationEvent>

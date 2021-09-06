@@ -1,7 +1,7 @@
 using System.Net;
 using System.Reflection.Emit;
-using Catalog.API.Infrastructure.ActionResults;
-using Catalog.API.Infrastructure.Exceptions;
+using eShopLabs.Services.Catalog.API.Infrastructure.ActionResults;
+using eShopLabs.Services.Catalog.API.Infrastructure.Exceptions;
 using Grpc.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Catalog.API.Infrastructure.Filters
+namespace eShopLabs.Services.Catalog.API.Infrastructure.Filters
 {
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {

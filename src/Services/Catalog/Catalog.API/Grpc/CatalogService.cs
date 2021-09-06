@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.API.Extensions;
-using Catalog.API.Infrastructure;
-using Catalog.API.Model;
 using CatalogApi;
+using eShopLabs.Services.Catalog.API.Extensions;
+using eShopLabs.Services.Catalog.API.Infrastructure;
+using eShopLabs.Services.Catalog.API.Model;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using static CatalogApi.Catalog;
 
-namespace Catalog.API.Grpc
+namespace eShopLabs.Services.Catalog.API.Grpc
 {
     public class CatalogService : CatalogBase
     {

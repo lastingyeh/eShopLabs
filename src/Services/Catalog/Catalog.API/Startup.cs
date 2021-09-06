@@ -1,11 +1,24 @@
 using System;
+using System.Data.Common;
+using System.IO;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Catalog.API.Infrastructure;
-using Catalog.API.Infrastructure.Filters;
+using eShopLabs.BuildingBlocks.EventBus;
+using eShopLabs.BuildingBlocks.EventBus.Abstractions;
+using eShopLabs.BuildingBlocks.EventBusRabbitMQ;
+using eShopLabs.BuildingBlocks.EventBusServiceBus;
+using eShopLabs.BuildingBlocks.IntegrationEventLogEF;
+using eShopLabs.BuildingBlocks.IntegrationEventLogEF.Services;
+using eShopLabs.Services.Catalog.API.Grpc;
+using eShopLabs.Services.Catalog.API.Infrastructure;
+using eShopLabs.Services.Catalog.API.Infrastructure.Filters;
+using eShopLabs.Services.Catalog.API.IntegrationEvents;
+using eShopLabs.Services.Catalog.API.IntegrationEvents.EventHandling;
+using eShopLabs.Services.Catalog.API.IntegrationEvents.Events;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,26 +26,13 @@ using Microsoft.Azure.ServiceBus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using System.IO;
-using Catalog.API.Grpc;
-using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Abstractions;
-using Catalog.API.IntegrationEvents.Events;
-using Catalog.API.IntegrationEvents.EventHandling;
-using System.Data.Common;
-using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Services;
-using Catalog.API.IntegrationEvents;
-using EventBusServiceBus;
-using Microsoft.Extensions.Options;
-using EventBusRabbitMQ;
-using RabbitMQ.Client;
-using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 
-namespace Catalog.API
+namespace eShopLabs.Services.Catalog.API
 {
     public class Startup
     {
@@ -76,7 +76,7 @@ namespace Catalog.API
 
             app.UseSwagger().UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint($"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json", "Catalog.API V1");
+                c.SwaggerEndpoint($"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json", "eShopLabs.Services.Catalog.API V1");
             });
 
             app.UseRouting();
@@ -268,7 +268,26 @@ namespace Catalog.API
 
         public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
         {
+            var subscriptionClientName = configuration["SubscriptionClientName"];
 
+            if (configuration.GetValue<bool>("AzureServiceBusEnabled"))
+            {
+                services.AddSingleton<IEventBus, EventBusServiceBus>(sp =>
+                {
+                    var serviceBusPersisterConnection = sp.GetRequiredService<IServiceBusPersisterConnection>();
+                    var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
+                    var logger = sp.GetRequiredService<ILogger<EventBusServiceBus>>();
+                    var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+
+                    return new EventBusServiceBus(serviceBusPersisterConnection, logger,
+                        eventBusSubcriptionsManager, subscriptionClientName, iLifetimeScope
+                    );
+                });
+            }
+            else
+            {
+
+            }
 
             return services;
         }

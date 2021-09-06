@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Utilities
+namespace eShopLabs.BuildingBlocks.IntegrationEventLogEF.Utilities
 {
     public class ResilientTransaction
     {
