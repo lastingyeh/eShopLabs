@@ -286,8 +286,26 @@ namespace eShopLabs.Services.Catalog.API
             }
             else
             {
+                services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
+                {
+                    var rabbitMQPersistConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                    var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
+                    var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+                    var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+                    var retryCount = 5;
 
+                    if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
+                    {
+                        retryCount = int.Parse(configuration["EventBusRetryCount"]);
+                    }
+
+                    return new EventBusRabbitMQ(rabbitMQPersistConnection, logger, iLifetimeScope, eventBusSubscriptionsManager, subscriptionClientName, retryCount);
+                });
             }
+
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+            services.AddTransient<OrderStatusChangedToAwaitingValidationIntegrationEventHandler>();
+            services.AddTransient<OrderStatusChangedToPaidIntegrationEventHandler>();
 
             return services;
         }

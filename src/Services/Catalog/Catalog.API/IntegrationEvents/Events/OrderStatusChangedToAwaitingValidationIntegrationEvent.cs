@@ -7,8 +7,7 @@ namespace eShopLabs.Services.Catalog.API.IntegrationEvents.Events
     {
         public int OrderId { get; }
         public IEnumerable<OrderStockItem> OrderStockItems { get; }
-        public OrderStatusChangedToAwaitingValidationIntegrationEvent(int orderId,
-            IEnumerable<OrderStockItem> orderStockItems)
+        public OrderStatusChangedToAwaitingValidationIntegrationEvent(int orderId, IEnumerable<OrderStockItem> orderStockItems)
         {
             OrderId = orderId;
             OrderStockItems = orderStockItems;
