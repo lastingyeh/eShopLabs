@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Net;
 using eShopLabs.BuildingBlocks.IntegrationEventLogEF;
-using eShopLabs.Services.Catalog.API.Extensions;
 using eShopLabs.Services.Catalog.API.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;

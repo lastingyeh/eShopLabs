@@ -122,7 +122,7 @@ namespace eShopLabs.BuildingBlocks.EventBus
 
                     var eventType = _eventTypes.SingleOrDefault(e => e.Name == eventName);
 
-                    if (eventName != null)
+                    if (eventType != null)
                     {
                         _eventTypes.Remove(eventType);
                     }

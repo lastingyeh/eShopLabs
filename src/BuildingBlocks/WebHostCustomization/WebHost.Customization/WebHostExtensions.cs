@@ -1,33 +1,31 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace eShopLabs.Services.Catalog.API.Extensions
+namespace Microsoft.AspNetCore.Hosting
 {
-    public static class WebHostExtensions
+    public static class IWebHostExtensions
     {
-        public static bool IsInKubernetes(this IWebHost host)
+        public static bool IsInKubernetes(this IWebHost webHost)
         {
-            // using Microsoft.Extensions.DependencyInjection;
-            var cfg = host.Services.GetService<IConfiguration>();
+            var cfg = webHost.Services.GetService<IConfiguration>();
             var orchestratorType = cfg.GetValue<string>("OrchestratorType");
 
             return orchestratorType?.ToUpper() == "K8S";
         }
-        public static IWebHost MigrateDbContext<TContext>(this IWebHost host, Action<TContext, IServiceProvider> seeder)
+
+        public static IWebHost MigrateDbContext<TContext>(this IWebHost webHost, Action<TContext, IServiceProvider> seeder)
             where TContext : DbContext
         {
-            var underK8s = host.IsInKubernetes();
+            var underK8s = webHost.IsInKubernetes();
 
-            using var scope = host.Services.CreateScope();
+            using var scope = webHost.Services.CreateScope();
 
             var services = scope.ServiceProvider;
-
             var logger = services.GetRequiredService<ILogger<TContext>>();
             var context = services.GetService<TContext>();
 
@@ -41,19 +39,23 @@ namespace eShopLabs.Services.Catalog.API.Extensions
                 }
                 else
                 {
-                    var retry = Policy.Handle<SqlException>()
-                        .WaitAndRetry(new TimeSpan[]
+                    var retries = 10;
+                    var retry = Policy.Handle<SqlException>().WaitAndRetry(
+                        retryCount: retries,
+                        sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                        onRetry: (exception, timeSpan, retry, ctx) =>
                         {
-                            TimeSpan.FromSeconds(3),
-                            TimeSpan.FromSeconds(5),
-                            TimeSpan.FromSeconds(8),
+                            logger.LogWarning(exception, "[{prefix}] Exception {ExceptionType} with message {Message} detected on attempt {retry} of {retries}", nameof(TContext), exception.GetType().Name, exception.Message, retry, retries);
                         });
 
+                    // if the sql server container is not created on run docker compose this
+                    // migration can't fail for network related exception. The retry options for DbContext only 
+                    // apply to transient exceptions
+                    // Note that this is NOT applied when running some orchestrators (let the orchestrator to recreate the failing service)
                     retry.Execute(() => InvokeSeeder(seeder, context, services));
                 }
 
                 logger.LogInformation("Migrated database associated with context {DbContextName}", typeof(TContext).Name);
-
             }
             catch (Exception ex)
             {
@@ -61,11 +63,12 @@ namespace eShopLabs.Services.Catalog.API.Extensions
 
                 if (underK8s)
                 {
-                    throw;
+                    // Rethrow under k8s because we rely on k8s to re-run the pod
+                    throw;          
                 }
             }
 
-            return host;
+            return webHost;
         }
 
         private static void InvokeSeeder<TContext>(Action<TContext, IServiceProvider> seeder, TContext context, IServiceProvider services)

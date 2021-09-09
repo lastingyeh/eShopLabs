@@ -19,14 +19,14 @@ namespace eShopLabs.Services.Catalog.API.Infrastructure
         }
     }
 
-    // public class CatalogContextDesignFactory : IDesignTimeDbContextFactory<CatalogContext>
-    // {
-    //     public CatalogContext CreateDbContext(string[] args)
-    //     {
-    //         var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>()
-    //             .UseSqlServer("Server=.;Initial Catalog=eShopLabs.Services.CatalogDb;Integrated Security=true");
+    public class CatalogContextDesignFactory : IDesignTimeDbContextFactory<CatalogContext>
+    {
+        public CatalogContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>()
+                .UseSqlServer("Server=.;Initial Catalog=eShopLabs.Services.CatalogDb;Integrated Security=true");
 
-    //         return new CatalogContext(optionsBuilder.Options);
-    //     }
-    // }
+            return new CatalogContext(optionsBuilder.Options);
+        }
+    }
 }

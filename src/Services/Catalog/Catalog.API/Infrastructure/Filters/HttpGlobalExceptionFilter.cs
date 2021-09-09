@@ -1,8 +1,6 @@
 using System.Net;
-using System.Reflection.Emit;
 using eShopLabs.Services.Catalog.API.Infrastructure.ActionResults;
 using eShopLabs.Services.Catalog.API.Infrastructure.Exceptions;
-using Grpc.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +21,7 @@ namespace eShopLabs.Services.Catalog.API.Infrastructure.Filters
         }
         public void OnException(ExceptionContext context)
         {
-            _logger.LogError(new EventId(context.Exception.HResult),
-                context.Exception, context.Exception.Message);
+            _logger.LogError(new EventId(context.Exception.HResult), context.Exception, context.Exception.Message);
 
             if (context.Exception.GetType() == typeof(CatalogDomainException))
             {

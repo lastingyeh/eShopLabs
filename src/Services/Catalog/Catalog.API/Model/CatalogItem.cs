@@ -45,5 +45,23 @@ namespace eShopLabs.Services.Catalog.API.Model
 
             return removed;
         }
+
+        public int AddStock(int quantity)
+        {
+            var original = AvailableStock;
+
+            if (AvailableStock + quantity > MaxStockThreshold)
+            {
+                AvailableStock += (MaxStockThreshold - AvailableStock);
+            }
+            else
+            {
+                AvailableStock += quantity;
+            }
+
+            OnReorder = false;
+
+            return AvailableStock - original;
+        }
     }
 }

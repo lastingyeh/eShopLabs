@@ -80,6 +80,7 @@ namespace eShopLabs.Services.Catalog.API
             });
 
             app.UseRouting();
+            
             app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
@@ -164,16 +165,15 @@ namespace eShopLabs.Services.Catalog.API
 
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddEntityFrameworkSqlServer()
-                .AddDbContext<CatalogContext>(options =>
-                {
-                    options.UseSqlServer(configuration["ConnectionString"], sqlServerOptionsAction: sqlOptions =>
+            services.AddEntityFrameworkSqlServer().AddDbContext<CatalogContext>(options =>
+            {
+                options.UseSqlServer(configuration["ConnectionString"],
+                    sqlServerOptionsAction: sqlOptions =>
                     {
                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15,
-                            maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                     });
-                });
+            });
 
             services.AddDbContext<IntegrationEventLogContext>(options =>
             {
@@ -191,7 +191,7 @@ namespace eShopLabs.Services.Catalog.API
         public static IServiceCollection AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<CatalogSettings>(configuration);
-
+            // Custom ModelState Error
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>
@@ -237,6 +237,7 @@ namespace eShopLabs.Services.Catalog.API
                 {
                     var settings = sp.GetRequiredService<IOptions<CatalogSettings>>().Value;
                     var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+
                     var factory = new ConnectionFactory
                     {
                         HostName = configuration["EventBusConnection"],
@@ -277,10 +278,10 @@ namespace eShopLabs.Services.Catalog.API
                     var serviceBusPersisterConnection = sp.GetRequiredService<IServiceBusPersisterConnection>();
                     var iLifetimeScope = sp.GetRequiredService<ILifetimeScope>();
                     var logger = sp.GetRequiredService<ILogger<EventBusServiceBus>>();
-                    var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+                    var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
 
                     return new EventBusServiceBus(serviceBusPersisterConnection, logger,
-                        eventBusSubcriptionsManager, subscriptionClientName, iLifetimeScope
+                        eventBusSubscriptionsManager, subscriptionClientName, iLifetimeScope
                     );
                 });
             }
@@ -331,10 +332,10 @@ namespace eShopLabs.Services.Catalog.API
             var accountKey = configuration.GetValue<string>("AzureStorageAccountKey");
 
             var hcBuilder = services.AddHealthChecks();
-
+            // write to db
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy())
                 .AddSqlServer(configuration["ConnectionString"], name: "CatalogDB-check", tags: new string[] { "catalogdb" });
-
+            // write to azure storage
             if (!string.IsNullOrEmpty(accountName) && !string.IsNullOrEmpty(accountKey))
             {
                 hcBuilder.AddAzureBlobStorage(
@@ -343,13 +344,13 @@ namespace eShopLabs.Services.Catalog.API
                     tags: new string[] { "catalogstorage" }
                 );
             }
-
+            // check healthy of queue 
             if (configuration.GetValue<bool>("AzureServiceBusEnabled"))
             {
                 hcBuilder.AddAzureServiceBusTopic(
                     configuration["EventBusConnection"],
                     topicName: "eshop_event_bus",
-                    name: "catalog-services-check",
+                    name: "catalog-servicebus-check",
                     tags: new string[] { "servicebus" }
                 );
             }

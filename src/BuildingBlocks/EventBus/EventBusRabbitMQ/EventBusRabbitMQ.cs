@@ -41,11 +41,12 @@ namespace eShopLabs.BuildingBlocks.EventBusRabbitMQ
         {
             _persistentConnection = persistentConnection;
             _logger = logger;
-            _autofac = autofac;
             _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
-            _retryCount = retryCount;
-            _consumerChannel = CreateConsumerChannel();
             _queueName = queueName;
+            _autofac = autofac;
+            _retryCount = retryCount;
+
+            _consumerChannel = CreateConsumerChannel();
 
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
         }
@@ -78,6 +79,8 @@ namespace eShopLabs.BuildingBlocks.EventBusRabbitMQ
             _logger.LogTrace("Creating RabbitMQ consumer channel");
 
             var channel = _persistentConnection.CreateModel();
+
+            channel.ExchangeDeclare(exchange: BROKER_NAME, type: "direct");
 
             channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 

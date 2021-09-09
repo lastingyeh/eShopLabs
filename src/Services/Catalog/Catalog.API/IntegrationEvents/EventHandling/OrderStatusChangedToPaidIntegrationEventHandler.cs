@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using eShopLabs.BuildingBlocks.EventBus.Abstractions;
-using eShopLabs.Services.Catalog.API.Infrastructure;
-using eShopLabs.Services.Catalog.API.IntegrationEvents.Events;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
+using eShopLabs.Services.Catalog.API.Infrastructure;
+using eShopLabs.Services.Catalog.API.IntegrationEvents.Events;
 
 namespace eShopLabs.Services.Catalog.API.IntegrationEvents.EventHandling
 {
