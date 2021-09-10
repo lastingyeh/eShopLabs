@@ -86,11 +86,18 @@ $ dotnet test
 ```
 
 - Functional Tests
-```
-# /Catalog/Catalog.FunctionalTests
-# step 1: create test server
-# step 2: define test apis paths
-# step 3: create client to test
-# [cmd]
-$ dotnet test
-```
+
+  Step1: Start Catalog.API
+  ```
+  $ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d  
+  ```
+
+  Step2: Create FunctionalTests
+  ```
+  # /Catalog/Catalog.FunctionalTests
+  # step 1: create test server
+  # step 2: define test apis paths
+  # step 3: create client to test
+  # [cmd]
+  $ dotnet test
+  ```

@@ -6,6 +6,7 @@
 
   - Catalog.API 
   - Catalog.UnitTests
+  - Catalog.FunctionalTests
 
 ---
 ## References
