@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace eShopLabs.Services.Catalog.API.Extensions
+namespace eShopLabs.BuildingBlocks.Utils.Linq
 {
     public static class LinqSelectExtensions
     {

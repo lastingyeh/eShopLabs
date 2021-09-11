@@ -80,7 +80,7 @@ namespace eShopLabs.Services.Catalog.API
             });
 
             app.UseRouting();
-            
+
             app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
@@ -341,8 +341,7 @@ namespace eShopLabs.Services.Catalog.API
                 hcBuilder.AddAzureBlobStorage(
                     $"DefaultEndpointsProtocol=https;AccountName={accountName};AccountKey={accountKey};EndpointSuffix=core.windows.net",
                     name: "catalog-storage-check",
-                    tags: new string[] { "catalogstorage" }
-                );
+                    tags: new string[] { "catalogstorage" });
             }
             // check healthy of queue 
             if (configuration.GetValue<bool>("AzureServiceBusEnabled"))
@@ -351,16 +350,14 @@ namespace eShopLabs.Services.Catalog.API
                     configuration["EventBusConnection"],
                     topicName: "eshop_event_bus",
                     name: "catalog-servicebus-check",
-                    tags: new string[] { "servicebus" }
-                );
+                    tags: new string[] { "servicebus" });
             }
             else
             {
                 hcBuilder.AddRabbitMQ(
                     $"amqp://{configuration["EventBusConnection"]}",
                     name: "catalog-rabbitmqbus-check",
-                    tags: new string[] { "rabbitmqbus" }
-                );
+                    tags: new string[] { "rabbitmqbus" });
             }
 
             return services;

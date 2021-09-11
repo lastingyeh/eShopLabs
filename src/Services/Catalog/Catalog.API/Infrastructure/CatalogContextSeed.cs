@@ -7,7 +7,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using eShopLabs.Services.Catalog.API.Extensions;
+using eShopLabs.BuildingBlocks.Utils.Linq;
 using eShopLabs.Services.Catalog.API.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;

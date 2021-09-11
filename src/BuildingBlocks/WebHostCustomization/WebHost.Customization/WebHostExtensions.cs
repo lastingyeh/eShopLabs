@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace Microsoft.AspNetCore.Hosting
+namespace eShops.BuildingBlocks.WebHostCustomization.WebHost.Customization
 {
     public static class IWebHostExtensions
     {
