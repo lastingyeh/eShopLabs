@@ -14,3 +14,9 @@ services:
     depends_on: 
       - sqldata
       - rabbitmq
+  
+  identity-api:
+    image: ${REGISTRY:-eshop}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Identity/Identity.API/Dockerfile

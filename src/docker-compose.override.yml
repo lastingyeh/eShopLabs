@@ -35,6 +35,18 @@ services:
       - "5101:80"
       - "9101:81"
 
+  identity-api:
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS="https://+;http://+"
+      - ASPNETCORE_HTTPS_PORT=8081
+    ports:
+      - "8081:443"
+      - "8080:80"
+    volumes: 
+      - ~/.microsoft/usersecrets/:/root/.microsoft/usersecrets
+      - ./Services/Identity/Identity.API/Secrets:/root/.aspent/https/
+
 volumes:
   eshop-sqldata:
     external: false

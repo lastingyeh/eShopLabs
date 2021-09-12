@@ -284,3 +284,6 @@ src/**/inf.yaml
 # For Mac
 .DS_Store
 
+# Certs
+*.pfx
+

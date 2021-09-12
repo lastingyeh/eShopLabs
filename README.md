@@ -8,7 +8,7 @@
   - Catalog.UnitTests
   - Catalog.FunctionalTests
 
-### [Identity services]([ht](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Identity))
+### [Identity services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Identity)
 
   - Identity.API
 

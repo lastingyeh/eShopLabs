@@ -34,20 +34,20 @@ namespace eShopLabs.Services.Identity.API
 
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
 
-                host.MigrateDbContext<ApplicationDbContext>((context, services) =>
-                {
-                    var env = services.GetService<IWebHostEnvironment>();
-                    var logger = services.GetService<ILogger<ApplicationDbContextSeed>>();
-                    var settings = services.GetService<IOptions<AppSettings>>();
+                // host.MigrateDbContext<ApplicationDbContext>((context, services) =>
+                // {
+                //     var env = services.GetService<IWebHostEnvironment>();
+                //     var logger = services.GetService<ILogger<ApplicationDbContextSeed>>();
+                //     var settings = services.GetService<IOptions<AppSettings>>();
 
-                    new ApplicationDbContextSeed().SeedAsync(context, env, logger, settings).Wait();
-                })
-                // Identity server storage
-                .MigrateDbContext<ConfigurationDbContext>((context, services) =>
-                {
-                    new ConfigurationDbContextSeed().SeedAsync(context, configuration).Wait();
-                })
-                .MigrateDbContext<PersistedGrantDbContext>((_, __) => { });
+                //     new ApplicationDbContextSeed().SeedAsync(context, env, logger, settings).Wait();
+                // })
+                // // Identity server storage
+                // .MigrateDbContext<ConfigurationDbContext>((context, services) =>
+                // {
+                //     new ConfigurationDbContextSeed().SeedAsync(context, configuration).Wait();
+                // })
+                // .MigrateDbContext<PersistedGrantDbContext>((_, __) => { });
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
 
