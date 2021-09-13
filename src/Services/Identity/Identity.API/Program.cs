@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using eShopLabs.BuildingBlocks.WebHost.Customization;
 using eShopLabs.Services.Identity.API.Data;
-using Identity.API;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;

@@ -1,6 +1,6 @@
 # Identity services
 
-### Https
+## Https
 
 - Create & trust cert file
 
@@ -27,6 +27,8 @@
       - ~/.aspnet/https:/https:ro
   ```
 
-#### [User-Secrets](https://docs.microsoft.com/zh-tw/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=linux)
-
-#### [Docker Https](https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1)
+## References
+- [User-Secrets](https://docs.microsoft.com/zh-tw/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=linux)
+- [Docker Https](https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1)
+- [Cookie SSO Protected](https://codingnote.cc/zh-tw/p/252256/)
+- [UserSecurityStamp](https://stackoverflow.com/questions/19487322/what-is-asp-net-identitys-iusersecuritystampstoretuser-interface?rq=1)
