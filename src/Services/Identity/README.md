@@ -1,30 +1,32 @@
 # Identity services
 
-###  Https
+### Https
 
-#### Create https
-``` 
-# local certs (local)
-$ dotnet dev-crets https --trust
+- Create & trust cert file
 
-# create certs *certs name have to the same with [dotnet run Identity.API.dll]
-$ dotnet dev-certs https -ep ./Identity.API.pfx -p pa$$w0rd
+  ```
+  # create pfx file
+  $ dotnet dev-certs https -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p pa55w0rd!
 
-# set certs to user-secrets
-$ dotnet user-secrets set "Kestrel:Certificates:Development:Password" "pa$$w0rd"
-```
+  $ dotnet dev-crets https --trust
+  ```
 
-#### Docker configurations
-``` 
-$ docker run \
-    -p 8080:80 -p 8081:443 \
-    -e ASPNETCORE_URLS="https://+;http://+" \
-    -e ASPNETCORE_HTTPS_PORT=8081 \
-    -e ASPNETCORE_ENVIRONMENT=Development \
-    -v <usersecrets_path>:/root/.microsoft/usersecrets \
-    -v <certs_path>:/root/.aspent/https/ \
-    identity.api
-```
+- Docker-compose configuration
+  ```yml
+  identity-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd!
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - '8081:443'
+      - '8080:80'
+    volumes:
+      - ~/.aspnet/https:/https:ro
+  ```
 
 #### [User-Secrets](https://docs.microsoft.com/zh-tw/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=linux)
 
+#### [Docker Https](https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1)

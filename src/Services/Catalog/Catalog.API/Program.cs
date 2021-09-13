@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using eShopLabs.BuildingBlocks.IntegrationEventLogEF;
 using eShopLabs.Services.Catalog.API.Infrastructure;
-using eShops.BuildingBlocks.WebHostCustomization.WebHost.Customization;
+using eShopLabs.BuildingBlocks.WebHost.Customization;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;

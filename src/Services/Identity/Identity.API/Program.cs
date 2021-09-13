@@ -1,7 +1,7 @@
 using System;
 using System.IO;
+using eShopLabs.BuildingBlocks.WebHost.Customization;
 using eShopLabs.Services.Identity.API.Data;
-using eShops.BuildingBlocks.WebHostCustomization.WebHost.Customization;
 using Identity.API;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore;
@@ -34,20 +34,20 @@ namespace eShopLabs.Services.Identity.API
 
                 Log.Information("Applying migrations ({ApplicationContext})...", AppName);
 
-                // host.MigrateDbContext<ApplicationDbContext>((context, services) =>
-                // {
-                //     var env = services.GetService<IWebHostEnvironment>();
-                //     var logger = services.GetService<ILogger<ApplicationDbContextSeed>>();
-                //     var settings = services.GetService<IOptions<AppSettings>>();
+                host.MigrateDbContext<ApplicationDbContext>((context, services) =>
+                {
+                    var env = services.GetService<IWebHostEnvironment>();
+                    var logger = services.GetService<ILogger<ApplicationDbContextSeed>>();
+                    var settings = services.GetService<IOptions<AppSettings>>();
 
-                //     new ApplicationDbContextSeed().SeedAsync(context, env, logger, settings).Wait();
-                // })
-                // // Identity server storage
-                // .MigrateDbContext<ConfigurationDbContext>((context, services) =>
-                // {
-                //     new ConfigurationDbContextSeed().SeedAsync(context, configuration).Wait();
-                // })
-                // .MigrateDbContext<PersistedGrantDbContext>((_, __) => { });
+                    new ApplicationDbContextSeed().SeedAsync(context, env, logger, settings).Wait();
+                })
+                // Identity server storage
+                .MigrateDbContext<ConfigurationDbContext>((context, services) =>
+                {
+                    new ConfigurationDbContextSeed().SeedAsync(context, configuration).Wait();
+                })
+                .MigrateDbContext<PersistedGrantDbContext>((_, __) => { });
 
                 Log.Information("Starting web host ({ApplicationContext})...", AppName);
 

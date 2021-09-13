@@ -3,7 +3,7 @@ using System.Reflection;
 using eShopLabs.BuildingBlocks.IntegrationEventLogEF;
 using eShopLabs.Services.Catalog.API;
 using eShopLabs.Services.Catalog.API.Infrastructure;
-using eShops.BuildingBlocks.WebHostCustomization.WebHost.Customization;
+using eShopLabs.BuildingBlocks.WebHost.Customization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;

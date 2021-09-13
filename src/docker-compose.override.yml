@@ -38,14 +38,15 @@ services:
   identity-api:
     environment: 
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS="https://+;http://+"
+      - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_HTTPS_PORT=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd!
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     ports:
       - "8081:443"
       - "8080:80"
     volumes: 
-      - ~/.microsoft/usersecrets/:/root/.microsoft/usersecrets
-      - ./Services/Identity/Identity.API/Secrets:/root/.aspent/https/
+      - ~/.aspnet/https:/https:ro
 
 volumes:
   eshop-sqldata:

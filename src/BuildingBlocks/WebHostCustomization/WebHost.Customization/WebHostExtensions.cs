@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace eShops.BuildingBlocks.WebHostCustomization.WebHost.Customization
+namespace eShopLabs.BuildingBlocks.WebHost.Customization
 {
     public static class IWebHostExtensions
     {
