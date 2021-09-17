@@ -243,19 +243,19 @@ namespace eShopLabs.Services.Identity.API.Configuration
                         "orders"
                     }
                 },
-                new Client
-                {
-                    ClientId = "mobileshoppingaggswaggerui",
-                    ClientName = "Mobile Shopping Aggregattor Swagger UI",
-                    AllowedGrantTypes = GrantTypes.Implicit,
-                    AllowAccessTokensViaBrowser = true,
-                    RedirectUris = { $"{clientsUrl["MobileShoppingAgg"]}/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"{clientsUrl["MobileShoppingAgg"]}/swagger/" },
-                    AllowedScopes =
-                    {
-                        "mobileshoppingagg"
-                    }
-                },
+                // new Client
+                // {
+                //     ClientId = "mobileshoppingaggswaggerui",
+                //     ClientName = "Mobile Shopping Aggregattor Swagger UI",
+                //     AllowedGrantTypes = GrantTypes.Implicit,
+                //     AllowAccessTokensViaBrowser = true,
+                //     RedirectUris = { $"{clientsUrl["MobileShoppingAgg"]}/swagger/oauth2-redirect.html" },
+                //     PostLogoutRedirectUris = { $"{clientsUrl["MobileShoppingAgg"]}/swagger/" },
+                //     AllowedScopes =
+                //     {
+                //         "mobileshoppingagg"
+                //     }
+                // },
                 new Client
                 {
                     ClientId = "webshoppingaggswaggerui",

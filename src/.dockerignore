@@ -13,7 +13,7 @@ LICENSE
 **/obj/
 **/node_modules/
 **/bower_components/
-**/wwwroot/lib/
+# **/wwwroot/lib/
 global.json
 **/appsettings.localhost.json
 Web/WebSPA/wwwroot/

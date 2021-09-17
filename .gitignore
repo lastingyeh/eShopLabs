@@ -34,9 +34,9 @@ bld/
 src/Web/WebMVC/wwwroot/js/site*
 
 # Uncomment if you have tasks that create the project's static files in wwwroot
-**/wwwroot/lib/
-!/wwwroot/lib/signalr
-!/wwwroot/lib/toastr
+# **/wwwroot/lib/
+# !/wwwroot/lib/signalr
+# !/wwwroot/lib/toastr
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -283,7 +283,4 @@ src/**/inf.yaml
 
 # For Mac
 .DS_Store
-
-# Certs
-*.pfx
 

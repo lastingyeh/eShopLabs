@@ -3,6 +3,7 @@ version: '3.8'
 services:
   sqldata:
     image: mcr.microsoft.com/mssql/server:2017-latest
+    
   rabbitmq:
     image: rabbitmq:3-management-alpine
       
@@ -19,4 +20,6 @@ services:
     image: ${REGISTRY:-eshop}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
-      dockerfile: Services/Identity/Identity.API/Dockerfile
+      dockerfile: Services/Identity/Identity.API/Dockerfile.dev
+    depends_on: 
+      - sqldata

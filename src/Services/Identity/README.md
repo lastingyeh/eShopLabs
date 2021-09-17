@@ -27,6 +27,26 @@
       - ~/.aspnet/https:/https:ro
   ```
 
+## Migrations
+
+- Add /Factories/*DbCotextFactory.cs
+- Migrations ApplicationDbContext
+  ```
+  $ dotnet ef migrations add init -c ApplicationDbContext -o Migrations    
+  ````
+- Migrations ConfigurationDbContext / PersistedGrantDbContext 
+  ```
+  $ dotnet ef migrations add init -c PersistedGrantDbContext -o Migrations/PersistedGrantDb
+
+  $ dotnet ef migrations add init -c ConfigurationDbContext -o Migrations/ConfigurationDb
+  ```
+
+## Import Client libs
+
+- libman.json
+
+- [How to use in VS](https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-vs?view=aspnetcore-5.0)
+
 ## References
 - [User-Secrets](https://docs.microsoft.com/zh-tw/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=linux)
 - [Docker Https](https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1)
