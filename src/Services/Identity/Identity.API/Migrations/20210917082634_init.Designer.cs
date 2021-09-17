@@ -10,14 +10,14 @@ using eShopLabs.Services.Identity.API.Data;
 namespace Identity.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210916105439_init")]
+    [Migration("20210917082634_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.18")
+                .HasAnnotation("ProductVersion", "3.1.19")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 

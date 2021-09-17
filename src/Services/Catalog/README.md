@@ -68,8 +68,12 @@ $ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
   - exec cmd
   ```
    # /src/Services/Catalog/Catalog.API
-   # [cmd]
+   
+   # [IntegrationEventLogContext]
    $ dotnet ef migrations add init -c IntegrationEventLogContext -o Infrastructure/IntegrationEventMigrations
+
+   # [CatalogContext]
+   $ dotnet ef migrations add init -c CatalogContext -o Infrastructure/CatalogMigrations
   ```
 ## Test
 

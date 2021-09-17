@@ -14,7 +14,7 @@ namespace Catalog.API.Infrastructure.CatalogMigrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.18")
+                .HasAnnotation("ProductVersion", "3.1.19")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("Relational:Sequence:.catalog_brand_hilo", "'catalog_brand_hilo', '', '1', '10', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:.catalog_hilo", "'catalog_hilo', '', '1', '10', '', '', 'Int64', 'False'")

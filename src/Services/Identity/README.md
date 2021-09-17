@@ -32,8 +32,8 @@
 - Add /Factories/*DbCotextFactory.cs
 - Migrations ApplicationDbContext
   ```
-  $ dotnet ef migrations add init -c ApplicationDbContext -o Migrations    
-  ````
+  $ dotnet ef migrations add init -c ApplicationDbContext -o Migrations/ApplicationDbcontext    
+  ```
 - Migrations ConfigurationDbContext / PersistedGrantDbContext 
   ```
   $ dotnet ef migrations add init -c PersistedGrantDbContext -o Migrations/PersistedGrantDb

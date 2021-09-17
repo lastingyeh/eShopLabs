@@ -10,14 +10,14 @@ using eShopLabs.BuildingBlocks.IntegrationEventLogEF;
 namespace Catalog.API.Infrastructure.IntegrationEventMigrations
 {
     [DbContext(typeof(IntegrationEventLogContext))]
-    [Migration("20210909070244_init")]
+    [Migration("20210917081948_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.18")
+                .HasAnnotation("ProductVersion", "3.1.19")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
