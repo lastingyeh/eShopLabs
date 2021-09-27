@@ -37,10 +37,10 @@ namespace eShopLabs.Services.Identity.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            RegisterApplicationInsights(services);
-
             var connectionString = Configuration["ConnectionString"];
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            
+            services.AddApplicationInsight(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -176,10 +176,17 @@ namespace eShopLabs.Services.Identity.API
                 });
             });
         }
-        private void RegisterApplicationInsights(IServiceCollection services)
+    }
+
+    public static class CustomExtensionMethods
+    {
+        public static IServiceCollection AddApplicationInsight(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddApplicationInsightsTelemetry(configuration);
+
             services.AddApplicationInsightsKubernetesEnricher();
+
+            return services;
         }
     }
 }
