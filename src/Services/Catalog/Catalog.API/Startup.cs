@@ -264,6 +264,7 @@ namespace eShopLabs.Services.Catalog.API
                     return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
                 });
             }
+            
             return services;
         }
 

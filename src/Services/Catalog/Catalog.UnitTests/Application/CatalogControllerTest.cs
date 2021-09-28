@@ -5,7 +5,7 @@ using eShopLabs.Services.Catalog.API;
 using eShopLabs.Services.Catalog.API.Controllers;
 using eShopLabs.Services.Catalog.API.Infrastructure;
 using eShopLabs.Services.Catalog.API.IntegrationEvents;
-using eShopLabs.Services.Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Models;
 using eShopLabs.Services.Catalog.API.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

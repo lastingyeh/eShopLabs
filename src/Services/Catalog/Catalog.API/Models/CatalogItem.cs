@@ -1,7 +1,7 @@
 using System;
 using eShopLabs.Services.Catalog.API.Infrastructure.Exceptions;
 
-namespace eShopLabs.Services.Catalog.API.Model
+namespace eShopLabs.Services.Catalog.API.Models
 {
     public class CatalogItem
     {

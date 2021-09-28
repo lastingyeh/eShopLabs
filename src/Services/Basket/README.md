@@ -1,7 +1,11 @@
 # Basket services
 
-## Basket.API
+### Basket.API
 
-## Basket.FunctionalTests
+- Rabbitmq
+- Azure Event Bus
+- Redis
+- Auth (Identity.API)
+### Basket.FunctionalTests
 
-## Basket.UnitTests
+### Basket.UnitTests

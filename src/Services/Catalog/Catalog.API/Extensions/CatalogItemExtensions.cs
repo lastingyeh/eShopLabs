@@ -1,4 +1,4 @@
-using eShopLabs.Services.Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Models;
 
 namespace eShopLabs.Services.Catalog.API.Extensions
 {

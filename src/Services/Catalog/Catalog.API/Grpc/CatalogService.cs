@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CatalogApi;
 using eShopLabs.Services.Catalog.API.Extensions;
 using eShopLabs.Services.Catalog.API.Infrastructure;
-using eShopLabs.Services.Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Models;
 using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

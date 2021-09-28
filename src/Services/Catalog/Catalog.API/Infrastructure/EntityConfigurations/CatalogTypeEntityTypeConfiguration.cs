@@ -1,4 +1,4 @@
-using eShopLabs.Services.Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

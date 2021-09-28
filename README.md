@@ -1,20 +1,32 @@
-# Microservices lab On [eShopOnContainers]
+# Microservices lab for [**eShopOnContainers**](https://github.com/dotnet-architecture/eShopOnContainers)
 
 ## Projects
 
 ### [Catalog services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Catalog)
 
-[dev] Catalog.API 
-[dev] Catalog.UnitTests
-[dev] Catalog.FunctionalTests
+- [x] Catalog.API 
+- [x] Catalog.UnitTests
+- [x] Catalog.FunctionalTests
 
 ### [Identity services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Identity)
 
-[dev] Identity.API
+- [x] Identity.API
 
 ### [Basket services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Basket)
 
-[dev] Basket.API
+- [ ] Basket.API
+
+### [Building Blocks](https://github.com/lastingyeh/eShopLabs/tree/master/src/BuildingBlocks)
+
+- [x] EventBus
+  - [x] EventBus
+  - [x] EventRabbitMQ
+  - [x] EventBusServiceBus
+  - [x] IntegrationEventLogEF
+- [x] Utils
+  - [x] Linq
+- [x] WebHostCustomization
+  - [x] WebHost.Customization
 
 ---
 ## References

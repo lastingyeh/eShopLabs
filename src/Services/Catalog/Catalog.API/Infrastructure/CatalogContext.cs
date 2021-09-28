@@ -1,5 +1,5 @@
 using eShopLabs.Services.Catalog.API.Infrastructure.EntityConfigurations;
-using eShopLabs.Services.Catalog.API.Model;
+using eShopLabs.Services.Catalog.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
