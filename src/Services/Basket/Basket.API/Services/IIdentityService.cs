@@ -1,4 +1,4 @@
-namespace Basket.API.Services
+namespace eShopLabs.Services.Basket.API.Services
 {
     public interface IIdentityService
     {

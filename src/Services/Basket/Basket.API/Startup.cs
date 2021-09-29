@@ -1,20 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Basket.API.Services;
 using eShopLabs.BuildingBlocks.EventBus;
 using eShopLabs.BuildingBlocks.EventBus.Abstractions;
 using eShopLabs.BuildingBlocks.EventBusRabbitMQ;
 using eShopLabs.BuildingBlocks.EventBusServiceBus;
 using eShopLabs.Services.Basket.API.Controllers;
+using eShopLabs.Services.Basket.API.Grpc;
 using eShopLabs.Services.Basket.API.Infrastructure.Filters;
 using eShopLabs.Services.Basket.API.Infrastructure.Middlewares;
 using eShopLabs.Services.Basket.API.Infrastructure.Repositories;
 using eShopLabs.Services.Basket.API.IntegrationEvents.EventHandling;
+using eShopLabs.Services.Basket.API.IntegrationEvents.Events;
+using eShopLabs.Services.Basket.API.Services;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.ServiceBus;
@@ -110,7 +115,7 @@ namespace eShopLabs.Services.Basket.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var pathBase = Configuration["PATH_BASE"] ?? string.Empty;
+            var pathBase = Configuration["PATH_BASE"];
 
             if (!string.IsNullOrEmpty(pathBase))
             {
@@ -119,6 +124,9 @@ namespace eShopLabs.Services.Basket.API
 
             if (env.IsDevelopment())
             {
+                // Enable middleware to serve generated Swagger as a JSON endpoint. 
+                app.UseSwagger();
+
                 app.UseSwaggerUI(opts =>
                 {
                     opts.SwaggerEndpoint($"{pathBase}/swagger/v1/swagger.json", "Basket.API V1");
@@ -137,8 +145,41 @@ namespace eShopLabs.Services.Basket.API
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<BasketService>();
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
+
+                endpoints.MapGet("/_proto/", async ctx =>
+                {
+                    ctx.Response.ContentType = "text/plain";
+
+                    using var fs = new FileStream(Path.Combine(env.ContentRootPath, "Proto", "basket.proto"), FileMode.Open, FileAccess.Read);
+                    using var sr = new StreamReader(fs);
+
+                    while (!sr.EndOfStream)
+                    {
+                        var line = await sr.ReadLineAsync();
+
+                        if (line != "/* >>" || line != "<< */")
+                        {
+                            await ctx.Response.WriteAsync(line);
+                        }
+                    }
+                });
+
+                endpoints.MapHealthChecks("/hc", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                });
+
+                endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+                {
+                    Predicate = r => r.Name.Contains("self"),
+                });
             });
+
+            app.SubscribeEventBus();
         }
     }
 
@@ -156,30 +197,30 @@ namespace eShopLabs.Services.Basket.API
         public static IServiceCollection AddSwaggerOpenApiService(this IServiceCollection services, IConfiguration config)
         {
             services.AddSwaggerGen(opts =>
+            {
+                opts.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    opts.SwaggerDoc("v1", new OpenApiInfo
-                    {
-                        Title = "eShopLabs - Basket HTTP API",
-                        Version = "v1",
-                        Description = "The Basket Services HTTP API"
-                    });
-
-                    opts.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                    {
-                        Type = SecuritySchemeType.OAuth2,
-                        Flows = new OpenApiOAuthFlows
-                        {
-                            Implicit = new OpenApiOAuthFlow
-                            {
-                                AuthorizationUrl = new Uri($"{config.GetValue<string>("IdentityUrlExternal")}/connect/authorize"),
-                                TokenUrl = new Uri($"{config.GetValue<string>("IdentityUrlExternal")}/connect/token"),
-                                Scopes = new Dictionary<string, string> { { "basket", "Basket API" } },
-                            },
-                        }
-                    });
-
-                    opts.OperationFilter<AuthorizeCheckOperationFilter>();
+                    Title = "eShopLabs - Basket HTTP API",
+                    Version = "v1",
+                    Description = "The Basket Services HTTP API"
                 });
+
+                opts.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        Implicit = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri($"{config.GetValue<string>("IdentityUrlExternal")}/connect/authorize"),
+                            TokenUrl = new Uri($"{config.GetValue<string>("IdentityUrlExternal")}/connect/token"),
+                            Scopes = new Dictionary<string, string> { { "basket", "Basket API" } },
+                        },
+                    }
+                });
+
+                opts.OperationFilter<AuthorizeCheckOperationFilter>();
+            });
 
             return services;
         }
@@ -259,17 +300,31 @@ namespace eShopLabs.Services.Basket.API
                 services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
                 {
                     var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
+
                     var factory = new ConnectionFactory
                     {
                         HostName = config["EventBusConnection"],
                         DispatchConsumersAsync = true,
-                        UserName = config["EventBusUserName"] ?? default,
-                        Password = config["EventBusPassword"] ?? default,
                     };
 
-                    var retryCount = config["EventBusRetryCount"] ?? "5";
+                    if (!string.IsNullOrEmpty(config["EventBusUserName"]))
+                    {
+                        factory.UserName = config["EventBusUserName"];
+                    }
 
-                    return new DefaultRabbitMQPersistentConnection(factory, logger, int.Parse(retryCount));
+                    if (!string.IsNullOrEmpty(config["EventBusPassword"]))
+                    {
+                        factory.Password = config["EventBusPassword"];
+                    }
+
+                    var retryCount = 5;
+
+                    if (!string.IsNullOrEmpty(config["EventBusRetryCount"]))
+                    {
+                        retryCount = int.Parse(config["EventBusRetryCount"]);
+                    }
+
+                    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
                 });
             }
 
@@ -301,9 +356,14 @@ namespace eShopLabs.Services.Basket.API
                     var logger = sp.GetRequiredService<ILogger<EventBusRabbitMQ>>();
                     var eventBusSubscriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
 
-                    var retryCount = config["EventBusRetryCount"] ?? "5";
+                    var retryCount = 5;
 
-                    return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubscriptionsManager, subscriptionClientName, int.Parse(retryCount));
+                    if (!string.IsNullOrEmpty(config["EventBusRetryCount"]))
+                    {
+                        retryCount = int.Parse(config["EventBusRetryCount"]);
+                    }
+
+                    return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, iLifetimeScope, eventBusSubscriptionsManager, subscriptionClientName, retryCount);
                 });
             }
 
@@ -324,6 +384,14 @@ namespace eShopLabs.Services.Basket.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+        }
+
+        public static void SubscribeEventBus(this IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+
+            eventBus.Subscribe<ProductPriceChangedIntegrationEvent, ProductPriceChangedIntegrationEventHandler>();
+            eventBus.Subscribe<OrderStartedIntegrationEvent, OrderStartedIntegrationEventHandler>();
         }
     }
 }

@@ -4,17 +4,17 @@
 
 ### [Catalog services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Catalog)
 
-- [x] Catalog.API 
+- [x] Catalog.API [_dev_]
 - [x] Catalog.UnitTests
 - [x] Catalog.FunctionalTests
 
 ### [Identity services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Identity)
 
-- [x] Identity.API
+- [x] Identity.API [_dev_]
 
 ### [Basket services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Basket)
 
-- [ ] Basket.API
+- [x] Basket.API [_dev_]
 
 ### [Building Blocks](https://github.com/lastingyeh/eShopLabs/tree/master/src/BuildingBlocks)
 

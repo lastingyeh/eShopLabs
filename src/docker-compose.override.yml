@@ -10,6 +10,12 @@ services:
     volumes:
       - eshop-sqldata:/var/opt/mssql
 
+  basketdata:
+    ports:
+      - "6379:6379"
+    volumes:
+      - eshop-basketdata:/data
+
   rabbitmq:
     ports:
       - "15672:15672"
@@ -18,6 +24,7 @@ services:
   catalog-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
       - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=eShopLabs.Services.CatalogDb;User Id=sa;Password=Pass@word}
       - PicBaseUrl=${ESHOP_STORAGE_CATALOG_URL}
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
@@ -37,12 +44,32 @@ services:
       - "5101:80"
       - "9101:81"
 
+  basket-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-basketdata}
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5105
+      - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
+      - EventBusUserName=${ESHOP_SERVICE_BUS_USERNAME}
+      - EventBusPassword=${ESHOP_SERVICE_BUS_PASSWORD}
+      - AzureServiceBusEnabled=False
+      - ApplicationInsights__InstrumentationKey=${INSTRUMENTATION_KEY}
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - UseLoadTest=${USE_LOADTEST:-False}
+      - GRPC_PORT=81
+      - PORT=80
+      - PATH_BASE=/basket-api
+    ports:
+      - "5103:80"
+      - "9103:81"
+
   identity-api:
     environment: 
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_HTTPS_PORT=5106
-      # - ASPNETCORE_URLS=http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd!
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - SpaClient=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5104
@@ -68,5 +95,7 @@ services:
 
 volumes:
   eshop-sqldata:
+    external: false
+  eshop-basketdata:
     external: false
   

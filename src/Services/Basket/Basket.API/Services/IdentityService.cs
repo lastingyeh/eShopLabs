@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Basket.API.Services
+namespace eShopLabs.Services.Basket.API.Services
 {
     public class IdentityService : IIdentityService
     {

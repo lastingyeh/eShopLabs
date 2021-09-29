@@ -12,16 +12,15 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Basket.API": {
+    "eShopLabs.Services.Basket.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
-      "applicationUrl": "http://localhost:5103",
+      "applicationUrl": "http://localhost:55103/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

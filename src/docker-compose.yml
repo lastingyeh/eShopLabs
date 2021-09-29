@@ -3,6 +3,9 @@ version: '3.8'
 services:
   sqldata:
     image: mcr.microsoft.com/mssql/server:2017-latest
+
+  basketdata:
+    image: redis:alpine
     
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -11,9 +14,19 @@ services:
     image: ${REGISTRY:-eshop}/catalog.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
-      dockerfile: Services/Catalog/Catalog.API/Dockerfile.dev
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
     depends_on: 
       - sqldata
+      - rabbitmq
+
+  basket-api:
+    image: ${REGISTRY:-eshop}/basket.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile.dev
+    depends_on:
+      - basketdata
+      - identity-api
       - rabbitmq
   
   identity-api:

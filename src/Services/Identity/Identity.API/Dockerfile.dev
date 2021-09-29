@@ -5,6 +5,8 @@ ARG BUILD_CONFIGURATION=Debug
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 
+EXPOSE 80
+
 WORKDIR /src
 
 COPY ["Services/Identity/Identity.API/Identity.API.csproj", "Services/Identity/Identity.API/"]
@@ -13,7 +15,9 @@ COPY ["BuildingBlocks/Utils/Utils.csproj", "BuildingBlocks/Utils/"]
 
 RUN dotnet restore Services/Identity/Identity.API/Identity.API.csproj -nowarn:msb3202,nu1503
 
-COPY . .
+COPY Services/Identity/Identity.API/. Services/Identity/Identity.API/.
+COPY BuildingBlocks/WebHostCustomization/WebHost.Customization/. BuildingBlocks/WebHostCustomization/WebHost.Customization/.
+COPY BuildingBlocks/Utils/. BuildingBlocks/Utils/.
 
 WORKDIR "/src/Services/Identity/Identity.API"
 

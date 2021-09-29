@@ -19,9 +19,8 @@
     },
     "eShopLabs.Services.Catalog.API": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5101",
+      "applicationUrl": "http://localhost:55101",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

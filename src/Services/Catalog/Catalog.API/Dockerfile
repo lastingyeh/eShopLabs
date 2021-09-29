@@ -1,11 +1,8 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
+WORKDIR /app
+EXPOSE 80
 
-ARG BUILD_CONFIGURATION=Debug
-
-ENV ASPNETCORE_ENVIRONMENT=Development
-ENV DOTNET_USE_POLLING_FILE_WATCHER=true
-
-# EXPOSE 80
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 
 WORKDIR /src
 
@@ -17,7 +14,7 @@ COPY ["BuildingBlocks/WebHostCustomization/WebHost.Customization/WebHost.Customi
 COPY ["BuildingBlocks/Utils/Utils.csproj", "BuildingBlocks/Utils/"]
 COPY ["Services/Catalog/Catalog.API/Catalog.API.csproj", "Services/Catalog/Catalog.API/"]
 
-RUN dotnet restore Services/Catalog/Catalog.API/Catalog.API.csproj -nowarn:msb3202,nu1503
+RUN dotnet restore Services/Catalog/Catalog.API/Catalog.API.csproj
 
 COPY BuildingBlocks/EventBus/EventBus/. BuildingBlocks/EventBus/EventBus/.
 COPY BuildingBlocks/EventBus/EventBusRabbitMQ/. BuildingBlocks/EventBus/EventBusRabbitMQ/.
@@ -27,9 +24,13 @@ COPY BuildingBlocks/WebHostCustomization/WebHost.Customization/. BuildingBlocks/
 COPY BuildingBlocks/Utils/. BuildingBlocks/Utils/.
 COPY Services/Catalog/Catalog.API/. Services/Catalog/Catalog.API/.
 
-WORKDIR /src/Services/Catalog/Catalog.API
+WORKDIR "/src/Services/Catalog/Catalog.API"
+RUN dotnet build "Catalog.API.csproj" -c Release -o /app/build
 
-RUN dotnet build --no-restore -c $BUILD_CONFIGURATION
+FROM build AS publish
+RUN dotnet publish "Catalog.API.csproj" -c Release -o /app/publish
 
-# ENTRYPOINT [ "dotnet", "run", "--no-build", "--no-launch-profile", "-c", "$BUILD_CONFIGURATION", "--" ]
-ENTRYPOINT [ "dotnet", "run"]
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Catalog.API.dll"]
