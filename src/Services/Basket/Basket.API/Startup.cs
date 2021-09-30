@@ -113,7 +113,7 @@ namespace eShopLabs.Services.Basket.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             var pathBase = Configuration["PATH_BASE"];
 
@@ -125,13 +125,15 @@ namespace eShopLabs.Services.Basket.API
             if (env.IsDevelopment())
             {
                 // Enable middleware to serve generated Swagger as a JSON endpoint. 
-                app.UseSwagger();
-
-                app.UseSwaggerUI(opts =>
+                app.UseSwagger().UseSwaggerUI(opts =>
                 {
+                    logger.LogInformation($"swagger path: {pathBase}/swagger/v1/swagger.json");
+
                     opts.SwaggerEndpoint($"{pathBase}/swagger/v1/swagger.json", "Basket.API V1");
                     opts.OAuthClientId("basketswaggerui");
                     opts.OAuthAppName("Basket Swagger UI");
+
+                    // opts.InjectJavascript("../assets/swaggerinit.js");
                 });
             }
 

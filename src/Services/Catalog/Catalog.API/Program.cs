@@ -92,10 +92,10 @@ namespace eShopLabs.Services.Catalog.API
 
         private static (int httpPort, int grpcPort) GetDefinedPorts(IConfiguration configuration)
         {
-            var grpcPort = configuration.GetValue("GRPC_PORT", 81);
             var port = configuration.GetValue("PORT", 80);
+            var grpcPort = configuration.GetValue("GRPC_PORT", 81);
 
-            return (grpcPort, port);
+            return (port, grpcPort);
         }
 
         private static IConfiguration GetConfiguration()

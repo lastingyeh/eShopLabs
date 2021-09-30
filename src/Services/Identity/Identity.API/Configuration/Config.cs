@@ -11,7 +11,7 @@ namespace eShopLabs.Services.Identity.API.Configuration
             new List<ApiResource>
             {
                 new ApiResource("orders", "Orders Service"),
-                new ApiResource("basket", "Basket Service"),
+                new ApiResource("basket", "Basket Service"){ Scopes = { "basket" }},
                 new ApiResource("marketing", "Marketing Service"),
                 new ApiResource("locations", "Locations Service"),
                 // new ApiResource("mobileshoppingagg", "Mobile Shopping Aggregator"),
@@ -25,6 +25,12 @@ namespace eShopLabs.Services.Identity.API.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile()
+            };
+
+        public static IEnumerable<ApiScope> GetApiScopes() =>
+            new List<ApiScope>
+            {
+                new ApiScope("basket"),
             };
 
         public static IEnumerable<Client> GetClients(Dictionary<string, string> clientsUrl) =>

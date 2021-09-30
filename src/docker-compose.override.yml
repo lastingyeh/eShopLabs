@@ -68,10 +68,11 @@ services:
   identity-api:
     environment: 
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_HTTPS_PORT=5106
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd!
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      # - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      # - ASPNETCORE_HTTPS_PORT=8106
+      # - ASPNETCORE_Kestrel__Certificates__Default__Password=pa55w0rd!
+      # - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - SpaClient=http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5104
       - XamarinCallback=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105/xamarincallback
       - ConnectionString=${ESHOP_AZURE_IDENTITY_DB:-Server=sqldata;Database=eShopLabs.Service.IdentityDb;User Id=sa;Password=Pass@word}
@@ -88,10 +89,10 @@ services:
       - ApplicationInsights__InstrumentationKey=${INSTRUMENTATION_KEY}
       - OrchestratorType=${ORCHESTRATOR_TYPE}
     ports:
-      - "5106:443"
+      # - "8106:443"
       - "5105:80"
-    volumes: 
-      - ~/.aspnet/https:/https:ro
+    # volumes: 
+    #   - ~/.aspnet/https:/https:ro
 
 volumes:
   eshop-sqldata:

@@ -23,7 +23,7 @@ services:
     image: ${REGISTRY:-eshop}/basket.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
-      dockerfile: Services/Basket/Basket.API/Dockerfile.dev
+      dockerfile: Services/Basket/Basket.API/Dockerfile
     depends_on:
       - basketdata
       - identity-api
@@ -33,6 +33,6 @@ services:
     image: ${REGISTRY:-eshop}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
-      dockerfile: Services/Identity/Identity.API/Dockerfile.dev
+      dockerfile: Services/Identity/Identity.API/Dockerfile
     depends_on: 
       - sqldata

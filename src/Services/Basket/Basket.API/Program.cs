@@ -113,10 +113,10 @@ namespace eShopLabs.Services.Basket.API
 
         private static (int httpPort, int grpcPort) GetDeinedPorts(IConfiguration config)
         {
-            var grpcPort = config.GetValue("GRPC_PORT", 5001);
             var port = config.GetValue("PORT", 80);
+            var grpcPort = config.GetValue("GRPC_PORT", 5001);
 
-            return (grpcPort, port);
+            return (port, grpcPort);
         }
     }
 }

@@ -2,17 +2,20 @@
 
 ## APIs
 
+### [Catalog Swagger APIs](http://host.docker.internal:5101/swagger)
+
 ### CatalogController [api/v1/catalog]
-  - ItemsAsync
-  - ItemByIdAsync
-  - ItemsWithNameAsync
-  - ItemsByTypeIdAndBrandIdAsync
-  - ItemsByBrandIdAsync
-  - CatalogTypesAsync
-  - CatalogBrandsAsync
-  - UpdateProductAsync
-  - CreateProductAsync
-  - DeleteProductAsync
+
+- ItemsAsync
+- ItemByIdAsync
+- ItemsWithNameAsync
+- ItemsByTypeIdAndBrandIdAsync
+- ItemsByBrandIdAsync
+- CatalogTypesAsync
+- CatalogBrandsAsync
+- UpdateProductAsync
+- CreateProductAsync
+- DeleteProductAsync
 
 ### PicController [api/v1/catalog/items/{catalogItemId:int}/pic]
 
@@ -23,21 +26,24 @@
 - CatalogContext
 - IntegrationEventLogContext
 
-## Sharing libs
+## Commons
 
 - EventBus
 - IntegrationEventLogEF [db]
 - EventBusRabbitMQ   [dev]
 - EventBusServiceBus [prod]
 - WebHostCustomization [dev] [migration]
-## Contents
+## framework
 
 - Net Core 3.1 LTS
 - Docker
 - Docker-compose
 ```
 # /src
-$ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build -d rabbitmq sqldata
+$ docker-compose build
+$ docker-compose up -d
+# logs
+$ docker-compose logs -f catalog-api 
 ```
 - Kubernetes [AKS]
 - AzureKeyVault
