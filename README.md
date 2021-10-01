@@ -6,7 +6,7 @@
 - Install [Docker desktop](https://www.docker.com/products/docker-desktop)
 - Install [WSL2](https://www.youtube.com/watch?v=BEVcW4kz1Kg&list=PLfQqWeOCIH4ACS0037k1KLNIv5f646jbr&index=1)
 - Install [Windows terminal](https://docs.microsoft.com/en-us/windows/terminal/get-started)
-- open terminal
+- Open [Windows terminal]
 ```
 # /src
 # pull & build image
@@ -54,12 +54,12 @@ $ docker-compose down
 - [x] WebHostCustomization
   - [x] WebHost.Customization
 
----
 ## References
 
 - [eShopOnContainers](https://github.com/dotnet-architecture/eShopOnContainers)
 - [eShopOnContainers realease 3.1](https://github.com/dotnet-architecture/eShopOnContainers/releases)
 - [eShopOnContainers wiki](https://github.com/dotnet-architecture/eShopOnContainers/wiki)
+- [Portainer WSL / Docker Desktop](https://docs.portainer.io/v/ce-2.9/start/install/server/docker/wsl)
 - [Docker_dotnet](https://github.com/dotnet/dotnet-docker/issues/2375)
 - [Polly](https://github.com/App-vNext/Polly)
 - [Serilog](https://github.com/serilog/serilog)
