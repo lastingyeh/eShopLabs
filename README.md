@@ -1,4 +1,4 @@
-# Steps by steps heads to [**eShopOnContainers**](https://github.com/dotnet-architecture/eShopOnContainers) Microservices 
+# Heads to [**eShopOnContainers**](https://github.com/dotnet-architecture/eShopOnContainers) Microservices 
 
 ## Setup
 
@@ -24,7 +24,7 @@ $ docker-compose down
 ### [portainer monitor](https://localhost:9443/#!/2/docker/containers)
 * Container status & logs & resources usage
    
-  ![alt tag](https://github.com/lastingyeh/eShopLabs/tree/master/imgs/portainer.jpg)
+  ![alt tag](https://github.com/lastingyeh/eShopLabs/blob/master/imgs/portainer.jpg)
 
 ---
 ## Tasks (updating...)
