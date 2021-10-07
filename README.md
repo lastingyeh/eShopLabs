@@ -54,6 +54,10 @@ $ docker-compose down
 - [x] WebHostCustomization
   - [x] WebHost.Customization
 
+---
+## [Kubernetes setup use Vagrant VM](https://github.com/lastingyeh/eShopLabs/tree/master/devops)
+
+---
 ## References
 
 - [eShopOnContainers](https://github.com/dotnet-architecture/eShopOnContainers)
@@ -66,3 +70,4 @@ $ docker-compose down
 - [Azure.Identity](https://docs.microsoft.com/en-us/dotnet/api/overview/azure/identity-readme)
 - [Windows10开发环境搭建](https://www.youtube.com/playlist?list=PLfQqWeOCIH4ACS0037k1KLNIv5f646jbr)
 - [使用 WSL 2 打造優質的多重 Linux 開發環境](https://blog.miniasp.com/post/2020/07/26/Multiple-Linux-Dev-Environment-build-on-WSL-2)
+- [kodekloudhub/certified-kubernetes-administrator-course](https://github.com/kodekloudhub/certified-kubernetes-administrator-course)
