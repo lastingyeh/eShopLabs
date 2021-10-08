@@ -54,10 +54,9 @@ $ docker-compose down
 - [x] WebHostCustomization
   - [x] WebHost.Customization
 
----
 ## [Kubernetes setup use Vagrant VM](https://github.com/lastingyeh/eShopLabs/tree/master/devops)
 
----
+
 ## References
 
 - [eShopOnContainers](https://github.com/dotnet-architecture/eShopOnContainers)

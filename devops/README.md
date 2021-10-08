@@ -28,6 +28,9 @@ vagrant up
 # VM ssh
 vagrant ssh [VM-name]
 
+# VM shutdown
+vagrant halt
+
 # VM delete
 vagrant destroy [VM-name]
 ```

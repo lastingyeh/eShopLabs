@@ -31,7 +31,7 @@ namespace Catalog.UnitTests.Application
         }
 
         [Fact]
-        public async Task GetCatalogItemsSuccess()
+        public async Task Get_Catalog_Items_Success()
         {
             // arrange
             var brandFilterApplied = 1;

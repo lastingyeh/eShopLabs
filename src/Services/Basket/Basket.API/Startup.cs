@@ -141,7 +141,8 @@ namespace eShopLabs.Services.Basket.API
 
             app.UseCors("CorsPolicy");
 
-            app.UseAuth(Configuration);
+            // [env] prod / dev / test 
+            ConfigureAuth(app);
 
             app.UseStaticFiles();
 
@@ -182,6 +183,17 @@ namespace eShopLabs.Services.Basket.API
             });
 
             app.SubscribeEventBus();
+        }
+
+        protected virtual void ConfigureAuth(IApplicationBuilder app)
+        {
+            if (Configuration.GetValue<bool>("UseLoadTest"))
+            {
+                app.UseMiddleware<ByPassAuthMiddleware>();
+            }
+
+            app.UseAuthentication();
+            app.UseAuthorization();
         }
     }
 
@@ -375,17 +387,6 @@ namespace eShopLabs.Services.Basket.API
             services.AddTransient<OrderStartedIntegrationEventHandler>();
 
             return services;
-        }
-
-        public static void UseAuth(this IApplicationBuilder app, IConfiguration config)
-        {
-            if (config.GetValue<bool>("UseLoadTest"))
-            {
-                app.UseMiddleware<ByPassAuthMiddleware>();
-            }
-
-            app.UseAuthentication();
-            app.UseAuthorization();
         }
 
         public static void SubscribeEventBus(this IApplicationBuilder app)
