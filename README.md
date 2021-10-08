@@ -31,8 +31,8 @@ $ docker-compose down
 ### [Catalog services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Catalog)
 
 - [x] Catalog.API [_dev_]
-- [x] Catalog.UnitTests
-- [x] Catalog.FunctionalTests
+- [x] Catalog.UnitTests [_dev_]
+- [x] Catalog.FunctionalTests [_dev_]
 
 ### [Identity services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Identity)
 
@@ -41,6 +41,8 @@ $ docker-compose down
 ### [Basket services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Basket)
 
 - [x] Basket.API [_dev_]
+- [x] Basket.UnitTests [_dev_]
+- [x] Basket.FunctionalTests [_dev_] 
 
 ### [Building Blocks](https://github.com/lastingyeh/eShopLabs/tree/master/src/BuildingBlocks)
 
