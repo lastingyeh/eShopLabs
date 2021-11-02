@@ -43,6 +43,10 @@ $ docker-compose down
 - [x] Basket.API [_dev_]
 - [x] Basket.UnitTests [_dev_]
 - [x] Basket.FunctionalTests [_dev_] 
+### [Location services](https://github.com/lastingyeh/eShopLabs/tree/master/src/Services/Location)
+
+- [ ] Location.API [_dev_]
+- [ ] Basket.FunctionalTests [_dev_] 
 
 ### [Building Blocks](https://github.com/lastingyeh/eShopLabs/tree/master/src/BuildingBlocks)
 
